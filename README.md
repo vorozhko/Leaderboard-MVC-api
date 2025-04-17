@@ -7,6 +7,7 @@ This project is a Model-View-Controller (MVC) API for managing a leaderboard. It
 - **Create Score**: Add a new score entry to the leaderboard.
 - **Update Score**: Update the points for an existing score entry.
 - **Retrieve Top Scores**: Fetch the top scores from the leaderboard with pagination support.
+- **Row Number Calculation**: Each score entry includes a dynamically calculated rank based on points.
 
 ## Project Structure
 
@@ -17,7 +18,7 @@ This project is a Model-View-Controller (MVC) API for managing a leaderboard. It
 ## Endpoints
 
 ### 1. Create Score
-- **URL**: `/score`
+- **URL**: `/scores`
 - **Method**: `POST`
 - **Request Body**:
   ```json
@@ -62,9 +63,24 @@ This project is a Model-View-Controller (MVC) API for managing a leaderboard. It
     {
       "id": 1,
       "name": "string",
-      "points": 10
+      "points": 10,
+      "rank": 1
     }
   ]
+  ```
+
+### 4. Get Score for a User
+- **URL**: `/scores/{user_id}`
+- **Method**: `GET`
+- **Path Parameter**:
+  - `user_id`: ID of the user whose score is to be retrieved.
+- **Response**:
+  ```json
+  {
+    "id": 1,
+    "name": "string",
+    "points": 10
+  }
   ```
 
 ## Setup
@@ -78,9 +94,9 @@ This project is a Model-View-Controller (MVC) API for managing a leaderboard. It
    ```bash
    pip install -r requirements.txt
    ```
-3. Run the application(DEV mode):
+3. Run the application:
    ```bash
-   fastapi dev ./main.py
+   uvicorn main:app --reload
    ```
 
 ### Accessing the API
