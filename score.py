@@ -15,3 +15,4 @@ class ScorePublic(ScoreBase):
     id: int
     points: int
     name: str
+    rank: int
