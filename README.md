@@ -23,15 +23,14 @@ This project is a Model-View-Controller (MVC) API for managing a leaderboard. It
 - **Request Body**:
   ```json
   {
-    "name": "string",
-    "points": 0
+    "name": "AwesomeGamer"
   }
   ```
 - **Response**:
   ```json
   {
     "id": 1,
-    "name": "string",
+    "name": "AwesomeGamer",
     "points": 0
   }
   ```
@@ -46,7 +45,7 @@ This project is a Model-View-Controller (MVC) API for managing a leaderboard. It
   ```json
   {
     "id": 1,
-    "name": "string",
+    "name": "AwesomeGamer",
     "points": 10
   }
   ```
@@ -62,14 +61,20 @@ This project is a Model-View-Controller (MVC) API for managing a leaderboard. It
   [
     {
       "id": 1,
-      "name": "string",
-      "points": 10,
+      "name": "AwesomeGamer",
+      "points": 120,
       "rank": 1
-    }
+    },
+    {
+      "id": 4,
+      "name": "GGALL",
+      "points": 90,
+      "rank": 2
+    },
   ]
   ```
 
-### 4. Get Score for a User
+### 4. Get Score for a User with current rank
 - **URL**: `/scores/{user_id}`
 - **Method**: `GET`
 - **Path Parameter**:
@@ -77,9 +82,10 @@ This project is a Model-View-Controller (MVC) API for managing a leaderboard. It
 - **Response**:
   ```json
   {
-    "id": 1,
-    "name": "string",
-    "points": 10
+    "id": 7,
+    "name": "TopPlayer",
+    "points": 10,
+    "rank": 55
   }
   ```
 
