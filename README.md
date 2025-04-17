@@ -78,9 +78,9 @@ This project is a Model-View-Controller (MVC) API for managing a leaderboard. It
    ```bash
    pip install -r requirements.txt
    ```
-3. Run the application:
+3. Run the application(DEV mode):
    ```bash
-   uvicorn main:app --reload
+   fastapi dev ./main.py
    ```
 
 ### Accessing the API
