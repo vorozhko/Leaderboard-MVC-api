@@ -1,5 +1,6 @@
 import logging
 from score_repository import ScoreRepositorySQL, ScoreRepositoryRedis
+import asyncio
 
 
 class ScoreService:
@@ -36,10 +37,9 @@ class ScoreService:
         if score_entry is None:
             raise ValueError(f"No Score entry found with id {id}")        
         try:
-            rank = self.repo_valkey.get_rank_by_score(score_entry.name, score_entry.points)
-            rank_points = int(rank)
+            rank_points = self.repo_valkey.get_rank_by_name(score_entry.name)
         except (ValueError, TypeError) as e:
-            logging.error(f"Invalid rank value: {rank}. Error: {e}")
+            logging.error(f"Invalid rank value: {rank_points}. Error: {e}")
             raise ValueError("Rank should be a valid integer") from e
         score_entry.rank = rank_points
         return score_entry

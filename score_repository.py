@@ -1,3 +1,4 @@
+import asyncio
 from sqlmodel import Session
 from score_model import Score, ScoreCreate
 from valkey import Valkey
@@ -34,13 +35,15 @@ class ScoreRepositoryRedis():
         return self.session.zadd(self.dbname, {name: 0})
 
 
-    def get_rank_by_score(self, name: str, points: int):
+    def get_rank_by_name(self, name: str)->int:
         if name is None:
             raise ValueError("Score name cannot be None")
         rank = self.session.zrevrank(self.dbname, bytes(name, "utf-8"), withscore=False)
         if rank is None:
             raise ValueError("Rank for the user not found")
-        return rank + 1
+        if type(rank) is list:
+            rank = rank[0]
+        return int(rank) + 1
 
     def update_score(self, name: str, points: int):
         self.session.zadd(self.dbname, {name: points})
