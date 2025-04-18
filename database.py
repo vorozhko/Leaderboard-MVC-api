@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from typing import Annotated
 from sqlmodel import SQLModel, Session, create_engine
 from fastapi import FastAPI, Depends
+import valkey
 
 sqlite_file_name = "database.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
@@ -22,3 +23,5 @@ async def lifespan(app: FastAPI):
     yield
 
 SessionDep = Annotated[Session, Depends(get_session)]
+
+RedisSessionDep = valkey.Valkey("localhost")

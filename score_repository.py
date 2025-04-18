@@ -1,9 +1,8 @@
 from sqlmodel import Session
 from score_model import Score, ScoreCreate
+from valkey import Valkey
 
 class ScoreRepository:
-    def __init__(self, dbsession: Session):
-        self.session = dbsession
 
     def get_score_by_id(self, id: int):
         raise NotImplementedError
@@ -21,7 +20,35 @@ class ScoreRepository:
         raise NotImplementedError
 
 
+
+class ScoreRepositoryRedis():
+
+    def __init__(self, dbsession: Valkey):
+        self.session = dbsession
+        self.dbname = "leaderboard"
+
+    def create_score(self, name: str):
+        # by default 0 points assigned
+        if name is None:
+            raise ValueError("Score name cannot be None")
+        return self.session.zadd(self.dbname, {name: 0})
+
+
+    def get_rank_by_score(self, name: str, points: int):
+        if name is None:
+            raise ValueError("Score name cannot be None")
+        rank = self.session.zrevrank(self.dbname, bytes(name, "utf-8"), withscore=False)
+        if rank is None:
+            raise ValueError("Rank for the user not found")
+        return rank + 1
+
+    def update_score(self, name: str, points: int):
+        self.session.zadd(self.dbname, {name: points})
+
 class ScoreRepositorySQL(ScoreRepository):    
+
+    def __init__(self, dbsession: Session):
+        self.session = dbsession
 
     def get_score_by_id(self, id: int):
         return self.session.get(Score, id)
@@ -47,12 +74,3 @@ class ScoreRepositorySQL(ScoreRepository):
             func.row_number().over(order_by=desc(Score.points)).label("rank")
         ).offset(offset).limit(limit).order_by(desc(Score.points))
         return self.session.exec(stmt).all()
-
-    def get_rank_by_score(self, score_entry: Score):
-        from sqlalchemy.sql.functions import func
-        from sqlmodel import select
-
-        stmt = select(
-            func.count()
-        ).where(Score.points >= score_entry.points)
-        return self.session.exec(stmt).one()
