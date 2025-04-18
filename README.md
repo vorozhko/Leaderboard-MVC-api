@@ -12,6 +12,8 @@ This project is a Model-View-Controller (MVC) API for managing a leaderboard. It
 ## Project Structure
 
 - `score_model.py`: Defines the data models for the leaderboard, including `Score`, `ScoreBase`, `ScoreCreate`, and `ScorePublic`.
+- `score_repository.py`: Encapsulates all database-related logic for interacting with the `Score` model.
+- `score_service.py`: Implements the business logic for managing scores, using the repository layer.
 - `database.py`: Manages the database connection and session, and initializes the database schema.
 - `main.py`: Implements the FastAPI application and defines the API endpoints.
 
@@ -70,11 +72,11 @@ This project is a Model-View-Controller (MVC) API for managing a leaderboard. It
       "name": "GGALL",
       "points": 90,
       "rank": 2
-    },
+    }
   ]
   ```
 
-### 4. Get Score for a User with current rank
+### 4. Get Score for a User with Current Rank
 - **URL**: `/scores/{user_id}`
 - **Method**: `GET`
 - **Path Parameter**:
