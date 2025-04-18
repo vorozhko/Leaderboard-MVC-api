@@ -17,6 +17,13 @@ This project is a Model-View-Controller (MVC) API for managing a leaderboard. It
 - `database.py`: Manages the database connection and session, and initializes the database schema.
 - `main.py`: Implements the FastAPI application and defines the API endpoints.
 
+## Storage Options
+
+This project supports multiple storage backends:
+
+- **SQLite**: The default relational database used for persistent storage. It is lightweight and easy to set up.
+- **Redis (via Valkey)**: A high-performance in-memory data store used for scenarios requiring fast access and ranking operations. The `Valkey` library is used to interact with Redis for leaderboard functionality.
+
 ## Endpoints
 
 ### 1. Create Score

@@ -1,5 +1,4 @@
-import asyncio
-from sqlmodel import Session
+from sqlmodel import Session, select, desc, col
 from score_model import Score, ScoreCreate
 from valkey import Valkey
 
@@ -48,6 +47,11 @@ class ScoreRepositoryRedis():
     def update_score(self, name: str, points: int):
         self.session.zadd(self.dbname, {name: points})
 
+    def get_top_scores(self, offset, limit):
+        ranks = self.session.zrevrange(self.dbname, offset, limit)
+        ranks = [r.decode("utf-8") for r in ranks]
+        return ranks
+
 class ScoreRepositorySQL(ScoreRepository):    
 
     def __init__(self, dbsession: Session):
@@ -68,12 +72,9 @@ class ScoreRepositorySQL(ScoreRepository):
         self.session.refresh(score_entry)
         return score_entry
 
-    def get_top_scores(self, offset=0, limit=10):
-        from sqlalchemy.sql.functions import func
-        from sqlmodel import select, desc
-
-        stmt = select(
-            Score,
-            func.row_number().over(order_by=desc(Score.points)).label("rank")
-        ).offset(offset).limit(limit).order_by(desc(Score.points))
-        return self.session.exec(stmt).all()
+    def getScoresByUsers(self, users):
+        stmt = select(Score).where(col(Score.name).in_(users)).order_by(desc(Score.points))
+        results = self.session.exec(stmt).all()
+        for index, _ in enumerate(results):
+            results[index].rank = index + 1
+        return results

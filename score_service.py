@@ -21,17 +21,12 @@ class ScoreService:
         return entry
 
     def top(self, offset=0, limit=10):
-        results = self.repo_sql.get_top_scores(offset, limit)
-        return [
-            {
-                "id": score.id,
-                "name": score.name,
-                "points": score.points,
-                "rank": rank
-            }
-            for score, rank in results
-        ]
+        
+        top_users = self.repo_valkey.get_top_scores(offset, limit)
+        results = self.repo_sql.getScoresByUsers(top_users)
 
+        return results
+    
     def scoreById(self, id: int):
         score_entry = self.repo_sql.get_score_by_id(id)
         if score_entry is None:
