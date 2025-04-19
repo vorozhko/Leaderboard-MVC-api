@@ -1,6 +1,6 @@
 # Leaderboard API
 
-This project is a Model-View-Controller (MVC) API for managing a leaderboard. It is built using FastAPI and SQLModel, providing endpoints to create, update, and retrieve leaderboard scores.
+This project is a Model-View-Controller (MVC) API for managing a leaderboard. It is built using FastAPI and SQLModel, providing endpoints to create, update, and retrieve leaderboard scores along with rank.
 
 ## Features
 
