@@ -1,4 +1,5 @@
-from sqlmodel import Session, select, desc, col
+import logging
+from sqlmodel import Session, select, desc, col, except_all
 from score_model import Score, ScoreCreate
 from valkey import Valkey
 
@@ -59,6 +60,10 @@ class ScoreRepositorySQL(ScoreRepository):
 
     def get_score_by_id(self, id: int):
         return self.session.get(Score, id)
+
+    def get_score_by_name(self, name: str):
+        result = self.session.exec(select(Score).where(Score.name == name))
+        return result.one_or_none()
 
     def update_score_points(self, score_entry: Score, points: int):
         score_entry.points += points

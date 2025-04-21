@@ -38,3 +38,9 @@ class ScoreService:
             raise ValueError("Rank should be a valid integer") from e
         score_entry.rank = rank_points
         return score_entry
+    
+    def isGamerExist(self, name: str)->bool:
+        score_entry = self.repo_sql.get_score_by_name(name)
+        if score_entry:
+            return True
+        return False

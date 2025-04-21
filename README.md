@@ -1,6 +1,6 @@
-# Leaderboard API
+# Leaderboard - solving Top K Problem with Python
 
-This project is a Model-View-Controller (MVC) API for managing a leaderboard. It is built using FastAPI and SQLModel, providing endpoints to create, update, and retrieve leaderboard scores along with rank.
+This project is a solution to the Leaderboard task from System Design Interview book. It is built using **FastAPI, SQLModel and Valkey**.
 
 ## Features
 
@@ -11,8 +11,8 @@ This project is a Model-View-Controller (MVC) API for managing a leaderboard. It
 
 ## Project Structure
 
-- `score_model.py`: Defines the data models for the leaderboard, including `Score`, `ScoreBase`, `ScoreCreate`, and `ScorePublic`.
-- `score_repository.py`: Encapsulates all database-related logic for interacting with the `Score` model.
+- `score_model.py`: Defines Pydantic data models for the leaderboard, including `Score` as a table, `ScoreBase` as a base SQLModel, `ScoreCreate` as a model to create new record, and `ScorePublic` as a return model for all queries.
+- `score_repository.py`: Encapsulates all database-related logic for interacting with the `Score` model and Valkey database.
 - `score_service.py`: Implements the business logic for managing scores, using the repository layer.
 - `database.py`: Manages the database connection and session, and initializes the database schema.
 - `main.py`: Implements the FastAPI application and defines the API endpoints.
@@ -102,6 +102,7 @@ This project supports multiple storage backends:
 
 ### Prerequisites
 - Python 3.12 or higher
+- Running Valkey database on localhost with port 6379
 
 ### Installation
 1. Clone the repository.
