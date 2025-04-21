@@ -40,7 +40,8 @@ This project supports multiple storage backends:
   {
     "id": 1,
     "name": "AwesomeGamer",
-    "points": 0
+    "points": 0,
+    "rank": 99
   }
   ```
 
@@ -55,7 +56,8 @@ This project supports multiple storage backends:
   {
     "id": 1,
     "name": "AwesomeGamer",
-    "points": 10
+    "points": 10,
+    "rank": 50
   }
   ```
 
